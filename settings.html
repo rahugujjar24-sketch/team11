@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team11 - Settings</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f6fa;color:#17243b}
+header{background:#101d36;color:white;padding:22px}
+header h2{margin:0}
+header p{color:#cbd5e1;margin-bottom:0}
+.container{max-width:600px;margin:auto;padding:18px}
+.card{background:white;padding:18px;border-radius:15px;margin-bottom:15px;box-shadow:0 3px 12px #17243b0d}
+.item{padding:14px 0;border-bottom:1px solid #edf0f4}
+.item:last-child{border:0}
+.item strong{display:block;margin-bottom:5px}
+.muted{font-size:13px;color:#718096}
+button{width:100%;padding:14px;border:0;border-radius:10px;background:#e63946;color:white;font-weight:bold;margin-top:10px}
+.danger{background:#b42332}
+nav{display:flex;gap:8px;padding:13px;background:white;position:sticky;bottom:0}
+nav a{flex:1;text-align:center;text-decoration:none;color:#17243b;font-size:13px;font-weight:bold}
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>⚙️ Settings</h2>
+<p>Manage your Team11 app</p>
+</header>
+
+<div class="container">
+
+<div class="card">
+<h3>Account Information</h3>
+<div class="item">
+<strong id="profileName">User</strong>
+<span class="muted" id="profileUsername">@user</span>
+</div>
+<div class="item">
+<strong id="points">10,000</strong>
+<span class="muted">Virtual points balance</span>
+</div>
+<div class="item">
+<strong id="teams">0</strong>
+<span class="muted">Saved teams</span>
+</div>
+<button onclick="location.href='profile.html'">Edit Profile</button>
+</div>
+
+<div class="card">
+<h3>App Information</h3>
+<div class="item">
+<strong>Team11</strong>
+<span class="muted">Fantasy Sports App - Demo Version</span>
+</div>
+<div class="item">
+<strong>Virtual Points Policy</strong>
+<span class="muted">Points have no cash value. No purchase, withdrawal, transfer or redemption is available.</span>
+</div>
+<div class="item">
+<strong>Privacy</strong>
+<span class="muted">This demo stores data locally in your browser. It does not yet have online accounts.</span>
+</div>
+</div>
+
+<div class="card">
+<h3>Data Management</h3>
+<p class="muted">Resetting demo data will delete your locally saved profile, teams, and transaction history.</p>
+<button class="danger" onclick="resetData()">Reset Demo Data</button>
+<p class="muted" id="message"></p>
+</div>
+
+<button onclick="location.href='index.html'">Back to Home</button>
+
+</div>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="my-teams.html">My Teams</a>
+<a href="leaderboard.html">Ranks</a>
+<a href="wallet.html">Wallet</a>
+</nav>
+
+<script>
+function loadSettings(){
+
+let profile={};
+
+try{
+profile=JSON.parse(localStorage.getItem("team11_profile"))||{};
+}catch(e){profile={};}
+
+document.getElementById("profileName").textContent=profile.name||"User";
+document.getElementById("profileUsername").textContent="@"+(profile.username||"user");
+
+let points=Number(localStorage.getItem("team11_points")||10000);
+document.getElementById("points").textContent=points.toLocaleString("en-IN");
+
+let teams=[];
+
+try{
+teams=JSON.parse(localStorage.getItem("team11_teams"))||[];
+}catch(e){teams=[];}
+
+document.getElementById("teams").textContent=teams.length;
+}
+
+function resetData(){
+
+let confirmReset=confirm("Are you sure? Your saved demo data will be deleted.");
+
+if(!confirmReset)return;
+
+localStorage.removeItem("team11_profile");
+localStorage.removeItem("team11_teams");
+localStorage.removeItem("team11_transactions");
+localStorage.removeItem("team11_points");
+
+document.getElementById("message").textContent="Demo data reset. Refreshing page...";
+setTimeout(()=>location.reload(),1000);
+}
+
+loadSettings();
+</script>
+
+</body>
+</html>

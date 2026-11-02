@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101d3a">
+<title>My Teams - Team11</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#f3f5f9;color:#18243c;padding-bottom:30px}
+.header{background:#101d3a;color:white;padding:20px 17px 25px;border-radius:0 0 20px 20px}
+.top{display:flex;align-items:center;gap:13px}
+.back{width:38px;height:38px;border:0;border-radius:50%;background:#263653;color:white;font-size:23px}
+h2{font-size:21px}
+.header p{font-size:12px;color:#c1cada;margin-top:7px}
+.container{max-width:650px;margin:auto;padding:20px 15px}
+.summary{background:white;padding:16px;border-radius:14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.summary small{color:#788398;font-size:11px}
+.summary strong{display:block;font-size:23px;margin-top:5px}
+.summary span{font-size:26px}
+.team-card{background:white;border:1px solid #e8edf4;border-radius:14px;padding:16px;margin-bottom:13px}
+.card-top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #edf0f5;padding-bottom:12px}
+.card-top h3{font-size:16px}
+.card-top small{color:#788398;font-size:10px}
+.tag{background:#eaf8f1;color:#159b68;padding:6px 9px;border-radius:20px;font-size:10px;font-weight:bold}
+.player-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:13px}
+.player{background:#f5f7fb;border-radius:9px;padding:10px;font-size:12px}
+.player strong{display:block;margin-bottom:4px}
+.player small{color:#788398;font-size:10px}
+.empty{text-align:center;background:white;border-radius:14px;padding:35px 18px}
+.empty div{font-size:38px;margin-bottom:12px}
+.empty h3{font-size:16px}
+.empty p{font-size:12px;color:#788398;margin-top:8px;line-height:1.5}
+.home{margin-top:16px;width:100%;background:#ed2945;color:white;padding:14px;border:0;border-radius:10px;font-weight:bold}
+</style>
+</head>
+<body>
+
+<header class="header">
+ <div class="top">
+  <button class="back" onclick="location.href='index.html'">‹</button>
+  <div>
+   <h2>My Teams</h2>
+   <p>Your saved fantasy cricket teams</p>
+  </div>
+ </div>
+</header>
+
+<main class="container">
+ <div class="summary">
+  <div>
+   <small>TOTAL SAVED TEAMS</small>
+   <strong id="total">0</strong>
+  </div>
+  <span>🏏</span>
+ </div>
+
+ <div id="teamList"></div>
+
+ <button class="home" onclick="location.href='index.html'">BACK TO HOME</button>
+</main>
+
+<script>
+function loadTeams(){
+ let teams=[];
+ try{
+  teams=JSON.parse(localStorage.getItem("team11_teams")||"[]");
+  if(!Array.isArray(teams))teams=[];
+ }catch(e){teams=[]}
+
+ document.getElementById("total").textContent=teams.length;
+ const list=document.getElementById("teamList");
+ list.innerHTML="";
+
+ if(teams.length===0){
+  list.innerHTML=`
+   <div class="empty">
+    <div>🏏</div>
+    <h3>No Teams Saved Yet</h3>
+    <p>Create your first fantasy team from an available match. Your saved teams will appear here.</p>
+   </div>`;
+  return;
+ }
+
+ teams.slice().reverse().forEach((team,index)=>{
+  const card=document.createElement("div");
+  card.className="team-card";
+
+  const top=document.createElement("div");
+  top.className="card-top";
+
+  const heading=document.createElement("div");
+  const title=document.createElement("h3");
+  title.textContent=team.match ? team.match.replace("-"," vs ") : "My Fantasy Team";
+  const date=document.createElement("small");
+  date.textContent=team.createdAt ? new Date(team.createdAt).toLocaleString() : "Saved team";
+  heading.append(title,date);
+
+  const tag=document.createElement("span");
+  tag.className="tag";
+  tag.textContent="SAVED";
+
+  top.append(heading,tag);
+  card.append(top);
+
+  const grid=document.createElement("div");
+  grid.className="player-grid";
+
+  (team.players||[]).forEach(p=>{
+   const item=document.createElement("div");
+   item.className="player";
+
+   const name=document.createElement("strong");
+   name.textContent=p.name||"Player";
+
+   const detail=document.createElement("small");
+   detail.textContent=(p.team||"") +" · "+(p.role||"");
+
+   item.append(name,detail);
+   grid.append(item);
+  });
+
+  card.append(grid);
+  list.append(card);
+ });
+}
+loadTeams();
+</script>
+</body>
+</html>

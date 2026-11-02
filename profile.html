@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team11 - My Profile</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f6fa;
+  color:#17243b;
+}
+header{
+  background:#101d36;
+  color:white;
+  padding:22px;
+}
+header h2{margin:0}
+header p{color:#cbd5e1}
+.container{padding:18px;max-width:600px;margin:auto}
+.card{
+  background:white;
+  padding:20px;
+  border-radius:16px;
+  margin-bottom:16px;
+  box-shadow:0 3px 12px #17243b0d;
+}
+.profile{text-align:center}
+.avatar{
+  width:85px;height:85px;
+  border-radius:50%;
+  background:#e63946;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:35px;
+  font-weight:bold;
+  margin:0 auto 12px;
+}
+input{
+  width:100%;
+  padding:13px;
+  border:1px solid #dce1ea;
+  border-radius:9px;
+  margin:8px 0 14px;
+  font-size:15px;
+}
+label{font-size:13px;font-weight:bold}
+button{
+  width:100%;
+  border:0;
+  padding:14px;
+  background:#e63946;
+  color:white;
+  border-radius:10px;
+  font-weight:bold;
+}
+.stats{
+  display:flex;
+  gap:10px;
+}
+.stat{
+  flex:1;
+  background:#f4f6fa;
+  padding:15px 8px;
+  border-radius:10px;
+  text-align:center;
+}
+.stat strong{
+  display:block;
+  font-size:22px;
+  color:#e63946;
+}
+.muted{font-size:13px;color:#718096}
+nav{
+  display:flex;
+  gap:8px;
+  padding:13px;
+  background:white;
+  position:sticky;
+  bottom:0;
+}
+nav a{
+  flex:1;
+  text-align:center;
+  text-decoration:none;
+  color:#17243b;
+  font-size:13px;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>👤 My Profile</h2>
+  <p>Welcome to Team11</p>
+</header>
+
+<div class="container">
+
+  <div class="card profile">
+    <div class="avatar" id="avatar">U</div>
+    <h2 id="displayName">User</h2>
+    <p class="muted" id="displayUsername">@user</p>
+  </div>
+
+  <div class="card">
+    <h3>Edit Profile</h3>
+
+    <label>Your Name</label>
+    <input id="name" type="text" placeholder="Enter your name" maxlength="30">
+
+    <label>Username</label>
+    <input id="username" type="text" placeholder="Enter username" maxlength="20">
+
+    <button onclick="saveProfile()">Save Profile</button>
+    <p class="muted" id="message"></p>
+  </div>
+
+  <div class="card">
+    <h3>Your Statistics</h3>
+    <div class="stats">
+      <div class="stat">
+        <strong id="points">10,000</strong>
+        <span class="muted">Virtual Points</span>
+      </div>
+      <div class="stat">
+        <strong id="teams">0</strong>
+        <span class="muted">Saved Teams</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>About Team11</h3>
+    <p class="muted">
+      Team11 is a free fantasy sports experience.
+      Points are virtual only and have no cash value.
+    </p>
+  </div>
+
+  <button onclick="location.href='index.html'">
+    Back to Home
+  </button>
+
+</div>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="my-teams.html">My Teams</a>
+  <a href="leaderboard.html">Ranks</a>
+  <a href="wallet.html">Wallet</a>
+</nav>
+
+<script>
+function loadProfile(){
+
+  let profile = {};
+
+  try{
+    profile = JSON.parse(localStorage.getItem("team11_profile")) || {};
+  }catch(error){
+    profile = {};
+  }
+
+  document.getElementById("name").value = profile.name || "";
+  document.getElementById("username").value = profile.username || "";
+
+  updateDisplay(profile);
+
+  let points = Number(localStorage.getItem("team11_points") || 10000);
+  document.getElementById("points").textContent =
+    points.toLocaleString("en-IN");
+
+  let teams = [];
+
+  try{
+    teams = JSON.parse(localStorage.getItem("team11_teams")) || [];
+  }catch(error){
+    teams = [];
+  }
+
+  document.getElementById("teams").textContent = teams.length;
+}
+
+function updateDisplay(profile){
+  let name = profile.name || "User";
+  let username = profile.username || "user";
+
+  document.getElementById("displayName").textContent = name;
+  document.getElementById("displayUsername").textContent = "@" + username;
+  document.getElementById("avatar").textContent =
+    name.charAt(0).toUpperCase();
+}
+
+function saveProfile(){
+
+  let name = document.getElementById("name").value.trim();
+  let username = document.getElementById("username").value.trim();
+
+  if(!name || !username){
+    document.getElementById("message").textContent =
+      "Please enter both name and username.";
+    return;
+  }
+
+  let profile = {name:name,username:username};
+
+  localStorage.setItem("team11_profile",JSON.stringify(profile));
+
+  updateDisplay(profile);
+
+  document.getElementById("message").textContent =
+    "Profile saved successfully!";
+}
+
+loadProfile();
+</script>
+
+</body>
+</html>

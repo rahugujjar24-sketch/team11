@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team11 - Fantasy Sports</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f6fa;color:#17243b}
+header{background:#101d36;color:white;padding:20px}
+.top{display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:25px;font-weight:bold}
+.logo span{color:#ef4653}
+.profile-link{color:white;text-decoration:none;background:#ffffff20;padding:9px 12px;border-radius:9px}
+.container{max-width:700px;margin:auto;padding:16px}
+.welcome{background:white;padding:18px;border-radius:15px;margin-bottom:15px}
+.welcome h2{margin:0 0 7px}
+.points{color:#e63946;font-weight:bold}
+.section-title{margin:22px 0 12px}
+.card{background:white;padding:17px;border-radius:14px;margin-bottom:13px;box-shadow:0 3px 12px #17243b0d}
+.match{display:flex;justify-content:space-between;align-items:center;text-align:center}
+.team{font-size:21px;font-weight:bold}
+.vs{color:#e63946;font-weight:bold}
+.muted{font-size:12px;color:#718096}
+button{border:0;border-radius:9px;background:#e63946;color:white;padding:12px;font-weight:bold;width:100%;margin-top:12px}
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.menu{
+background:white;padding:18px 10px;border-radius:13px;
+text-decoration:none;color:#17243b;text-align:center;
+font-weight:bold;box-shadow:0 3px 12px #17243b0d
+}
+.menu span{display:block;font-size:25px;margin-bottom:8px}
+footer{text-align:center;padding:22px;color:#718096;font-size:12px}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="top">
+<div class="logo">TEAM<span>11</span></div>
+<a class="profile-link" href="profile.html">👤 Profile</a>
+</div>
+<p>Build your team. Play with virtual points.</p>
+</header>
+
+<div class="container">
+
+<div class="welcome">
+<h2>Welcome to Team11!</h2>
+<p class="muted">Your virtual gaming dashboard</p>
+<div class="points">💰 <span id="points">10,000</span> Virtual Points</div>
+</div>
+
+<h3 class="section-title">🏏 Upcoming Matches</h3>
+
+<div class="card">
+<div class="muted">DEMO MATCH</div>
+<div class="match">
+<div><div class="team">MUM</div><span class="muted">Mumbai</span></div>
+<div class="vs">VS</div>
+<div><div class="team">CHE</div><span class="muted">Chennai</span></div>
+</div>
+<button onclick="location.href='builder.html?match=MUM-CHE'">Create Team</button>
+</div>
+
+<div class="card">
+<div class="muted">DEMO MATCH</div>
+<div class="match">
+<div><div class="team">BLR</div><span class="muted">Bengaluru</span></div>
+<div class="vs">VS</div>
+<div><div class="team">KOL</div><span class="muted">Kolkata</span></div>
+</div>
+<button onclick="location.href='builder.html?match=BLR-KOL'">Create Team</button>
+</div>
+
+<div class="card">
+<div class="muted">DEMO MATCH</div>
+<div class="match">
+<div><div class="team">GUJ</div><span class="muted">Gujarat</span></div>
+<div class="vs">VS</div>
+<div><div class="team">RAJ</div><span class="muted">Rajasthan</span></div>
+</div>
+<button onclick="location.href='builder.html?match=GUJ-RAJ'">Create Team</button>
+</div>
+
+<h3 class="section-title">📱 Your Team11</h3>
+
+<div class="menu-grid">
+<a class="menu" href="my-teams.html"><span>🏏</span>My Teams</a>
+<a class="menu" href="leaderboard.html"><span>🏆</span>Leaderboard</a>
+<a class="menu" href="wallet.html"><span>💰</span>Virtual Wallet</a>
+<a class="menu" href="profile.html"><span>👤</span>My Profile</a>
+<a class="menu" href="settings.html"><span>⚙️</span>Settings</a>
+<a class="menu" href="builder.html"><span>➕</span>Create Team</a>
+</div>
+
+<footer>
+Team11 Demo Version<br>
+Virtual points only. No cash value.
+</footer>
+
+</div>
+
+<script>
+let points=Number(localStorage.getItem("team11_points")||10000);
+document.getElementById("points").textContent=points.toLocaleString("en-IN");
+</script>
+
+</body>
+</html>
